@@ -1,0 +1,9 @@
+[package]
+name = "demo"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+
+[build-dependencies]
+gitversion_build = { version = "0.1.0", path = "../.." }
