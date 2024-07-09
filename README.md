@@ -20,4 +20,4 @@ gitversion_build::inject_version().unwrap();
 
 Then you can get `CARGO_PKG_VERSION` `CARGO_PKG_VERSION_MAJOR` `CARGO_PKG_VERSION_MINOR` `CARGO_PKG_VERSION_PATCH` `CARGO_PKG_VERSION_PRE` by using `env!` in your code.
 
-A example at [example/demo](https://gitversion.net/docs/usage/cli/installation/example/demo) .
+A example at [example/demo](https://github.com/zhangchaoza/gitversion_build_rs/tree/main/example/demo) .
