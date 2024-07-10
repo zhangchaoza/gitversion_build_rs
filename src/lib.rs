@@ -1,7 +1,9 @@
 use serde::{Deserialize, Serialize};
+use std::process::Command;
 
 pub fn get_version() -> Result<GitVersion, String> {
-    let v: GitVersion = serde_json::from_str(include_str!(concat!(env!("OUT_DIR"), "/GITVERSION")))
+    let version = get_git_version();
+    let v: GitVersion = serde_json::from_str(version.as_str())
         .map_err(|e| format!("Get gitversion failed! {e}"))?;
     Ok(v)
 }
@@ -99,6 +101,18 @@ pub struct GitVersion {
     pub uncommitted_changes: i64,
     #[serde(rename = "CommitDate")]
     pub commit_date: String,
+}
+
+fn get_git_version() -> String {
+    let child = Command::new("gitversion")
+        .args(["/output", "json"])
+        .output();
+    match child {
+        Ok(child) => String::from_utf8(child.stdout).expect("failed to read stdout"),
+        Err(err) => {
+            panic!("`gitversion` err: {}", err);
+        }
+    }
 }
 
 #[cfg(test)]
