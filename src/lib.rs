@@ -52,7 +52,7 @@ pub struct GitVersion {
     pub patch: i64,
     pub pre_release_label: String,
     pub pre_release_label_with_dash: String,
-    pub pre_release_number: i64,
+    pub pre_release_number: Option<i64>,
     pub pre_release_tag: String,
     pub pre_release_tag_with_dash: String,
     pub sem_ver: String,
