@@ -3,6 +3,7 @@ use std::process::Command;
 
 pub fn get_version() -> Result<GitVersion, String> {
     let version = get_git_version();
+    println!("version: {}", version);
     let v: GitVersion = serde_json::from_str(version.as_str())
         .map_err(|e| format!("Get gitversion failed! {e}"))?;
     Ok(v)
@@ -64,15 +65,52 @@ pub struct GitVersion {
 }
 
 fn get_git_version() -> String {
-    let child = Command::new("gitversion")
+    let child = Command::new("dotnet")
+        .arg("gitversion")
         .args(["/output", "json"])
         .output();
-    match child {
-        Ok(child) => String::from_utf8(child.stdout).expect("failed to read stdout"),
-        Err(err) => {
-            panic!("`gitversion` err: {}", err);
+
+    let child = if let Ok(child) = child {
+        if child.status.success() {
+            Ok(String::from_utf8(child.stdout).expect("failed to read stdout"))
+        } else {
+            Err(format!(
+                "Execte `dotnet gitversion` failed! {}",
+                String::from_utf8(child.stderr).expect("failed to read stdout")
+            ))
         }
-    }
+    } else {
+        Err(format!(
+            "Execte `dotnet gitversion` failed! {}",
+            child.unwrap_err()
+        ))
+    };
+
+    child.unwrap_or_else(|e| {
+        println!("{}", e);
+        println!("Try to execte `gitversion`");
+        let child = Command::new("gitversion")
+            .args(["/output", "json"])
+            .output();
+
+        let child = if let Ok(child) = child {
+            if child.status.success() {
+                Ok(String::from_utf8(child.stdout).expect("failed to read stdout"))
+            } else {
+                Err(format!(
+                    "Execte `gitversion` failed! {}",
+                    String::from_utf8(child.stdout).expect("failed to read stdout")
+                ))
+            }
+        } else {
+            Err(format!(
+                "Execte `gitversion` failed! {}",
+                child.unwrap_err()
+            ))
+        };
+
+        child.unwrap()
+    })
 }
 
 #[cfg(test)]
