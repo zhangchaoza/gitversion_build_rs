@@ -58,10 +58,7 @@ pub fn inject_version_legacy() -> Result<(), String> {
         "cargo:rustc-env=GITVERSION_FULL_BUILD_META_DATA={}",
         v.full_build_meta_data
     );
-    println!(
-        "cargo:rustc-env=GITVERSION_FULL_SEM_VER={}",
-        v.full_sem_ver
-    );
+    println!("cargo:rustc-env=GITVERSION_FULL_SEM_VER={}", v.full_sem_ver);
     println!(
         "cargo:rustc-env=GITVERSION_INFORMATIONAL_VERSION={}",
         v.informational_version
