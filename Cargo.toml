@@ -1,12 +1,14 @@
 [package]
 name = "gitversion_build"
-version = "0.1.4"
+version = "0.1.5"
 edition = "2021"
-authors = ["zhangchao <zackability@hotmail.com>"]
 description = "Build crate with versions by gitversion"
 homepage = "https://github.com/zhangchaoza/gitversion_build_rs"
 repository = "https://github.com/zhangchaoza/gitversion_build_rs"
 license = "MIT"
+
+[package.metadata]
+authors = ["zhangchao <zackability@hotmail.com>"]
 
 [dependencies]
 serde = { version = "1.0.209", features = ["serde_derive"] }
