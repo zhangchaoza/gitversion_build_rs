@@ -1,6 +1,6 @@
 [package]
 name = "gitversion_build"
-version = "0.1.5"
+version = "0.1.6"
 edition = "2021"
 description = "Build crate with versions by gitversion"
 homepage = "https://github.com/zhangchaoza/gitversion_build_rs"
