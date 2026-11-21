@@ -220,6 +220,7 @@ pub struct GitVersion {
     pub branch_name: String,
     pub build_meta_data: Option<serde_json::Value>,
     pub commit_date: String,
+    #[serde(rename = "CommitCountSourceDistance")]
     pub commits_since_version_source: i64,
     pub escaped_branch_name: String,
     pub full_build_meta_data: String,
@@ -229,10 +230,14 @@ pub struct GitVersion {
     pub major_minor_patch: String,
     pub minor: i64,
     pub patch: i64,
+    #[serde(rename = "PreReleaseLabelName")]
     pub pre_release_label: String,
+    #[serde(rename = "PreReleaseLabelNameWithDash")]
     pub pre_release_label_with_dash: String,
     pub pre_release_number: Option<i64>,
+    #[serde(rename = "PreReleaseLabel")]
     pub pre_release_tag: String,
+    #[serde(rename = "PreReleaseLabelWithDash")]
     pub pre_release_tag_with_dash: String,
     pub sem_ver: String,
     pub sha: String,
@@ -245,7 +250,7 @@ pub struct GitVersion {
 fn get_git_version() -> String {
     let child = Command::new("dotnet")
         .arg("gitversion")
-        .args(["/output", "json"])
+        .args(["--output", "json"])
         .output();
 
     let child = if let Ok(child) = child {
@@ -268,7 +273,7 @@ fn get_git_version() -> String {
         println!("{}", e);
         println!("Try to execte `gitversion`");
         let child = Command::new("gitversion")
-            .args(["/output", "json"])
+            .args(["--output", "json"])
             .output();
 
         let child = if let Ok(child) = child {
